@@ -317,7 +317,7 @@
             const imgData = sequenceImages[sequenceStep];
             const hasBtn = imgData.hasButton === true;
             container.innerHTML = `
-                <div class="sequence-area">
+              <div class="sequence-area" style="position: relative;">
                     <img class="sequence-img" src="${imgData.src}" alt="صورة" onerror="this.src='https://picsum.photos/400/400?random=2'">
                     <div class="sequence-text">${imgData.text}</div>
                     ${hasBtn ? `
