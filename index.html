@@ -91,9 +91,11 @@
             position: relative;
         }
         
+        /* ========== تعديلات الصور المتتالية ========== */
         .sequence-area {
             padding: 24px 20px 32px;
             text-align: center;
+            position: relative;
         }
         
         .sequence-img {
@@ -103,6 +105,7 @@
             object-fit: cover;
             margin-bottom: 20px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            display: block;
         }
         
         .sequence-text {
@@ -112,6 +115,55 @@
             font-size: 1.2rem;
             color: #a13e63;
         }
+        
+        /* الزرار الجديد - فوق الصورة وبيتناسب مع التلفون */
+        .final-button-overlay {
+            position: absolute;
+            bottom: 22%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff3366;
+            color: white;
+            font-size: 1.6rem;
+            font-weight: bold;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 0 25px rgba(255,51,102,0.9), 0 4px 15px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            animation: floatBtn 2s ease-in-out infinite;
+            transition: transform 0.2s, box-shadow 0.2s;
+            /* ========== إلغاء اللون الأزرق لما بتدوس ========== */
+            -webkit-tap-highlight-color: transparent;
+            tap-highlight-color: transparent;
+            outline: none;
+            -webkit-user-select: none;
+            user-select: none;
+            /* ================================================ */
+        }
+        
+        .final-button-overlay:active {
+            transform: translateX(-50%) scale(0.95);
+            box-shadow: 0 0 15px rgba(255,51,102,0.6);
+        }
+        
+        /* حركة الزرار فوق وتحت */
+        @keyframes floatBtn {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        
+        /* Responsive للشاشات الصغيرة */
+        @media (max-width: 400px) {
+            .final-button-overlay {
+                font-size: 1.3rem;
+                padding: 12px 22px;
+                bottom: 20%;
+            }
+        }
+        /* ============================================= */
         
         .final-button {
             background: #ff9800;
@@ -172,6 +224,11 @@
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             transition: transform 0.15s;
+            /* ========== إلغاء اللون الأزرق ========== */
+            -webkit-tap-highlight-color: transparent;
+            tap-highlight-color: transparent;
+            outline: none;
+            /* ======================================== */
         }
         
         #heartSVG {
@@ -252,6 +309,11 @@
             border-radius: 50px;
             cursor: pointer;
             margin-top: 20px;
+            /* ========== إلغاء اللون الأزرق ========== */
+            -webkit-tap-highlight-color: transparent;
+            tap-highlight-color: transparent;
+            outline: none;
+            /* ======================================== */
         }
     </style>
 </head>
@@ -316,26 +378,17 @@
         else if (state === "sequence") {
             const imgData = sequenceImages[sequenceStep];
             const hasBtn = imgData.hasButton === true;
+            
             container.innerHTML = `
-              <div class="sequence-area" style="position: relative;">
+                <div class="sequence-area" id="seqArea">
                     <img class="sequence-img" src="${imgData.src}" alt="صورة" onerror="this.src='https://picsum.photos/400/400?random=2'">
                     <div class="sequence-text">${imgData.text}</div>
                     ${hasBtn ? `
-                 <button class="final-button" id="showCodeBtn" style="
-                 position: absolute; 
-                 top: 65%; 
-                 left: 50%; 
-                 transform: translate(-50%, -50%);
-                 background: #ff3366;
-                 font-size: 1.8rem;
-                 padding: 18px 32px;
-                 border-radius: 50px;
-                 z-index: 20;
-                 cursor: pointer;
-                 box-shadow: 0 0 20px rgba(255,51,102,0.8);
-                 ">هيهي دوسيييي</button>
-                  ` : '...'}
+                        <button class="final-button-overlay" id="showCodeBtn">هيهي دوسيييي 💖</button>
+                    ` : ''}
+                </div>
             `;
+            
             if (hasBtn) {
                 document.getElementById("showCodeBtn").onclick = () => {
                     state = "heartpage";
@@ -354,7 +407,6 @@
             }
         }
         else if (state === "heartpage") {
-            // كود القلب بالكامل اللي أنت بعته
             container.innerHTML = `
                 <div class="heart-container" id="heartApp">
                     <canvas id="starsCanvas"></canvas>
@@ -384,7 +436,6 @@
                 </div>
             `;
             
-            // تشغيل كود القلب
             const heartPhrases = [
                 "متزعليش يحياتييي",
                 "Your smile lights up my life",
