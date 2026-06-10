@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>♥ LOVE EXPERIENCE ♥</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: linear-gradient(145deg, #1a0a1e 0%, #0d0a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            font-family: 'Segoe UI', Tahoma, system-ui;
+        }
+        
+        .main-card {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255,245,240,0.96);
+            border-radius: 56px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        
+        .questions-area {
+            padding: 24px 20px 32px;
+            text-align: center;
+        }
+        
+        .image-box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #fbe9f0;
+            border-radius: 40px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 3px white, 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .question-text {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #a13e63;
+            background: #ffeef4;
+            padding: 12px;
+            border-radius: 50px;
+            margin-bottom: 28px;
+        }
+        
+        .buttons-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .btn-yes, .btn-no {
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+            transition: 0.05s linear;
+            min-width: 110px;
+        }
+        
+        .btn-yes {
+            background: #d63e7b;
+            color: white;
+        }
+        
+        .btn-yes:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+        }
+        
+        .btn-no {
+            background: #8b2c4a;
+            color: white;
+            position: relative;
+        }
+        
+        .sequence-area {
+            padding: 24px 20px 32px;
+            text-align: center;
+        }
+        
+        .sequence-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 40px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .sequence-text {
+            background: #f3e1e8;
+            padding: 12px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            color: #a13e63;
+        }
+        
+        .final-button {
+            background: #ff9800;
+            color: #2d1b0a;
+            font-size: 1.4rem;
+            font-weight: bold;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #b45f1b;
+        }
+        
+        .final-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b45f1b;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* صفحة القلب - الكود بتاعك بالضبط */
+        .heart-container {
+            min-height: 520px;
+            background: linear-gradient(160deg, #1a0a1e 0%, #2d0d2a 35%, #1a0d2e 70%, #0d0a1a 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 56px;
+        }
+        
+        canvas#starsCanvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+        
+        #heartWrap {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #heartButton {
+            width: 130px; height: 130px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.15s;
+        }
+        
+        #heartSVG {
+            width: 115px; height: 115px;
+            filter: drop-shadow(0 0 22px rgba(180,30,90,0.8));
+            animation: pulseHeart 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 22px rgba(180,30,90,0.8)); }
+            50% { transform: scale(1.09); filter: drop-shadow(0 0 38px rgba(200,40,100,0.95)); }
+        }
+        
+        #heartButton.clicked #heartSVG {
+            animation: heartbeatAnim 0.65s ease-in-out, pulseHeart 1.5s ease-in-out 0.65s infinite;
+        }
+        
+        @keyframes heartbeatAnim {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.25); }
+            50% { transform: scale(0.93); }
+            75% { transform: scale(1.13); }
+            100% { transform: scale(1); }
+        }
+        
+        .phraseMessage {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(180,30,80,0.22);
+            border: 1px solid rgba(255,130,170,0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 10px 24px;
+            color: #ffd6e8;
+            font-size: 15px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 20;
+            animation: fallDownAnim 3.4s ease-in forwards;
+        }
+        
+        @keyframes fallDownAnim {
+            0%   { opacity: 0;   bottom: 44%; }
+            12%  { opacity: 1;   bottom: 40%; }
+            75%  { opacity: 1;   bottom: 8%;  }
+            100% { opacity: 0;   bottom: 0%;  }
+        }
+        
+        .heartParticle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFlyAnim 0.85s ease-out forwards;
+            z-index: 15;
+        }
+        
+        @keyframes particleFlyAnim {
+            0%   { opacity: 1; transform: translate(0,0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
+        }
+        
+        .hintText {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255,180,210,0.4);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        .restartBtn {
+            background: #555;
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-card" id="mainCard"></div>
+
+<script>
+    // ========== صور الأسئلة (غيرها من جهازك) ==========
+    const questions = [
+        { text: "هنمممم مزتي زعلانة اعمل ايه؟", img: "pic1.jpg" },
+        { text: "اخخخ اعمل ايههه؟؟", img: "pic2.jpg" },
+        { text: "وههه ثانيههه", img: "pic3.jpg" },
+        { text: "يسس يسسس", img: "pic4.jpg" },
+        { text: "كملي يمزة", img: "pic5.jpg" },
+    ];
+    
+    // ========== الصور المتتالية ==========
+    const sequenceImages = [
+        { src: "pic6.jpg", text: "ازيك يمزتي", duration: 3000 },
+        { src: "pic7.jpg", text: "استني عندي ليكي مفاجئة", duration: 2000 },
+        { src: "pic8.jpg", text: "اهييي هيهي", duration: 0, hasButton: true }
+    ];
+    
+    let currentIndex = 0;
+    let state = "questions";
+    let sequenceStep = 0;
+    
+    function render() {
+        const container = document.getElementById("mainCard");
+        
+        if (state === "questions") {
+            const q = questions[currentIndex];
+            container.innerHTML = `
+                <div class="questions-area">
+                    <div class="image-box">
+                        <img src="${q.img}" alt="صورة" onerror="this.src='https://picsum.photos/400/400?random=1'">
+                    </div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="buttons-row">
+                        <button class="btn-yes" id="yesBtn">تكملي؟</button>
+                        <button class="btn-no" id="noBtn"> ناه همشي</button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById("yesBtn").onclick = nextQuestion;
+            
+            const noBtn = document.getElementById("noBtn");
+            function moveNo() {
+                const area = document.querySelector(".questions-area");
+                if (!area || !noBtn) return;
+                const maxX = Math.max(10, area.clientWidth - noBtn.clientWidth - 30);
+                const maxY = Math.max(10, area.clientHeight - noBtn.clientHeight - 100);
+                noBtn.style.position = "relative";
+                noBtn.style.left = Math.random() * maxX + "px";
+                noBtn.style.top = Math.random() * maxY + "px";
+            }
+            noBtn.addEventListener("mouseenter", moveNo);
+            noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); moveNo(); });
+            noBtn.onclick = (e) => { e.preventDefault(); moveNo(); };
+        }
+        else if (state === "sequence") {
+            const imgData = sequenceImages[sequenceStep];
+            const hasBtn = imgData.hasButton === true;
+            container.innerHTML = `
+                <div class="sequence-area">
+                    <img class="sequence-img" src="${imgData.src}" alt="صورة" onerror="this.src='https://picsum.photos/400/400?random=2'">
+                    <div class="sequence-text">${imgData.text}</div>
+                    ${hasBtn ? `
+                 <button class="final-button" id="showCodeBtn" style="
+                 position: absolute; 
+                 top: 65%; 
+                 left: 50%; 
+                 transform: translate(-50%, -50%);
+                 background: #ff3366;
+                 font-size: 1.8rem;
+                 padding: 18px 32px;
+                 border-radius: 50px;
+                 z-index: 20;
+                 cursor: pointer;
+                 box-shadow: 0 0 20px rgba(255,51,102,0.8);
+                 ">هيهي دوسيييي</button>
+                  ` : '...'}
+            `;
+            if (hasBtn) {
+                document.getElementById("showCodeBtn").onclick = () => {
+                    state = "heartpage";
+                    render();
+                };
+            } else {
+                setTimeout(() => {
+                    if (state === "sequence" && sequenceStep + 1 < sequenceImages.length) {
+                        sequenceStep++;
+                        render();
+                    } else if (state === "sequence" && sequenceStep + 1 === sequenceImages.length) {
+                        sequenceStep++;
+                        render();
+                    }
+                }, imgData.duration);
+            }
+        }
+        else if (state === "heartpage") {
+            // كود القلب بالكامل اللي أنت بعته
+            container.innerHTML = `
+                <div class="heart-container" id="heartApp">
+                    <canvas id="starsCanvas"></canvas>
+                    <div id="heartWrap">
+                        <button id="heartButton" aria-label="اضغط لإرسال رسالة حب">
+                            <svg id="heartSVG" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="hg" cx="50%" cy="38%" r="62%">
+                                        <stop offset="0%" stop-color="#e8507a"/>
+                                        <stop offset="55%" stop-color="#b5194f"/>
+                                        <stop offset="100%" stop-color="#7a0d30"/>
+                                    </radialGradient>
+                                    <radialGradient id="glow" cx="50%" cy="38%" r="60%">
+                                        <stop offset="0%" stop-color="#ff8fb0" stop-opacity="0.5"/>
+                                        <stop offset="100%" stop-color="#b5194f" stop-opacity="0"/>
+                                    </radialGradient>
+                                </defs>
+                                <path d="M50 85 C50 85 5 55 5 28 C5 12 17 3 30 3 C40 3 47 9 50 14 C53 9 60 3 70 3 C83 3 95 12 95 28 C95 55 50 85 50 85Z" fill="url(#hg)"/>
+                                <path d="M50 85 C50 85 5 55 5 28 C5 12 17 3 30 3 C40 3 47 9 50 14 C53 9 60 3 70 3 C83 3 95 12 95 28 C95 55 50 85 50 85Z" fill="url(#glow)"/>
+                                <path d="M22 22 C22 15 28 12 34 14" stroke="rgba(255,200,220,0.4)" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="phrasesArea" style="position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none;"></div>
+                    <div class="hintText">اضغط على القلب 💗</div>
+                    <button class="restartBtn" id="restartFromHeart">🔄 ابدأ من جديد</button>
+                </div>
+            `;
+            
+            // تشغيل كود القلب
+            const heartPhrases = [
+                "متزعليش يحياتييي",
+                "Your smile lights up my life",
+                "ركزي عشان الجاي يبقى احسن",
+                "هفضل مستني لحد ما تيجي تفرحيني بالنتيجة يقلبي",
+                "كل ثانية مستنيكي فيها عشان افرحك",
+                "I'll always be by your side babee",
+                "I love you my moon",
+                "Forever Yours Your, Future Husband"
+            ];
+            
+            let phraseIndex = 0;
+            const heartBtn = document.getElementById('heartButton');
+            const phrasesAreaDiv = document.getElementById('phrasesArea');
+            const starsCanvas = document.getElementById('starsCanvas');
+            const ctxStars = starsCanvas.getContext('2d');
+            
+            function resizeStarsCanvas() {
+                starsCanvas.width = starsCanvas.offsetWidth;
+                starsCanvas.height = starsCanvas.offsetHeight;
+            }
+            
+            function drawStarsOnCanvas() {
+                if (!starsCanvas.width) return;
+                ctxStars.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+                for (let i = 0; i < 100; i++) {
+                    const x = Math.random() * starsCanvas.width;
+                    const y = Math.random() * starsCanvas.height;
+                    const r = Math.random() * 1.1 + 0.2;
+                    const alpha = Math.random() * 0.6 + 0.2;
+                    const pink = Math.random() > 0.6;
+                    ctxStars.beginPath();
+                    ctxStars.arc(x, y, r, 0, Math.PI * 2);
+                    ctxStars.fillStyle = pink ? `rgba(255,180,210,${alpha})` : `rgba(255,255,255,${alpha})`;
+                    ctxStars.fill();
+                }
+            }
+            
+            setTimeout(() => { resizeStarsCanvas(); drawStarsOnCanvas(); }, 80);
+            window.addEventListener('resize', () => { resizeStarsCanvas(); drawStarsOnCanvas(); });
+            
+            function createHeartPhrase() {
+                const msg = document.createElement('div');
+                msg.className = 'phraseMessage';
+                msg.textContent = heartPhrases[phraseIndex % heartPhrases.length];
+                phraseIndex++;
+                const offset = (Math.random() - 0.5) * 80;
+                msg.style.left = `calc(50% + ${offset}px)`;
+                msg.style.transform = `translateX(calc(-50% + ${-offset * 0.5}px))`;
+                phrasesAreaDiv.appendChild(msg);
+                setTimeout(() => { if (msg.parentNode) msg.parentNode.removeChild(msg); }, 3600);
+            }
+            
+            function createHeartParticles() {
+                const rect = heartBtn.getBoundingClientRect();
+                const heartContainer = document.getElementById('heartApp');
+                const appRect = heartContainer.getBoundingClientRect();
+                const cx = rect.left - appRect.left + rect.width / 2;
+                const cy = rect.top - appRect.top + rect.height / 2;
+                const colors = ['#e8507a','#c4305f','#ff8fb0','#f0a0c0','#ffd0e4'];
+                for (let i = 0; i < 14; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'heartParticle';
+                    const size = Math.random() * 7 + 4;
+                    p.style.width = size + 'px';
+                    p.style.height = size + 'px';
+                    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    p.style.left = cx + 'px';
+                    p.style.top = cy + 'px';
+                    const angle = Math.random() * Math.PI * 2;
+                    const dist = Math.random() * 55 + 25;
+                    p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                    p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+                    heartContainer.appendChild(p);
+                    setTimeout(() => { if (p.parentNode) p.parentNode.removeChild(p); }, 950);
+                }
+            }
+            
+            function releaseHeart() {
+                heartBtn.classList.remove('clicked');
+                void heartBtn.offsetWidth;
+                heartBtn.classList.add('clicked');
+                setTimeout(() => heartBtn.classList.remove('clicked'), 700);
+                createHeartParticles();
+                createHeartPhrase();
+            }
+            
+            function handleHeartClick(e) {
+                if (e.target.closest('#heartButton') || e.target.closest('#heartWrap')) {
+                    releaseHeart();
+                }
+            }
+            
+            const heartContainerDiv = document.getElementById('heartApp');
+            heartContainerDiv.addEventListener('click', handleHeartClick);
+            
+            document.getElementById("restartFromHeart").onclick = () => {
+                currentIndex = 0;
+                sequenceStep = 0;
+                state = "questions";
+                render();
+            };
+        }
+    }
+    
+    function nextQuestion() {
+        if (currentIndex + 1 < questions.length) {
+            currentIndex++;
+            render();
+        } else {
+            state = "sequence";
+            sequenceStep = 0;
+            render();
+        }
+    }
+    
+    render();
+</script>
+</body>
+</html>
